@@ -1,21 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
+import 'package:snap_cart/core/resources/data_state.dart';
 
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
+import '../../product/controller/product_controller.dart';
 import '../widgets/categories_item.dart';
 
 void main() => runApp(const Home());
 
-class Home extends StatefulWidget {
+class Home extends ConsumerStatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  ConsumerState<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends ConsumerState<Home> {
   int selectedIndex = -1;
   @override
   Widget build(BuildContext context) {
@@ -223,5 +228,13 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  fetchGetProducts() {
+    final dataState = ref.read(productControllerProvider).getAllProducts();
+    if (dataState is DataSuccess) {
+      log(dataState.toString());
+      final data = dataState;
+    }
   }
 }
