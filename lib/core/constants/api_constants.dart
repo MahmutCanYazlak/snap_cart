@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final apiConstantsNotifierProvider =
-    ChangeNotifierProvider((ref) => ApiConstantsNotifier());
+final apiConstantNotifier = ChangeNotifierProvider<ApiConstants>((ref) {
+  return ApiConstants();
+});
 
-class ApiConstantsNotifier extends ChangeNotifier {
-  String _baseUrl = 'https://api.escuelajs.co/api/v1/';
-  String get baseUrl => _baseUrl;
+class ApiConstants extends ChangeNotifier {
+  ApiConstants();
+  static String baseUrl = "https://dummyjson.com/products";
 
-  void setBaseUrl(String baseUrl) {
-    _baseUrl = baseUrl;
+  Future<String> setBaseUrl(String url) async {
+    baseUrl = url;
     notifyListeners();
+    return baseUrl;
   }
 }
