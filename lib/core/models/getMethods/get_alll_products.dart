@@ -224,7 +224,7 @@ class Products {
 
 class Dimensions {
   double? width;
-  double? height;
+  int? height;
   double? depth;
 
   Dimensions({this.width, this.height, this.depth});
