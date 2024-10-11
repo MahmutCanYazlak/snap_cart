@@ -24,7 +24,13 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   int selectedIndex = -1;
   int pageIndex = 0;
-  List<GetAllProducts> products = [];
+  List<Products> products = [];
+
+  @override
+  void initState() {
+    fetchGetProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -234,12 +240,16 @@ class _HomeState extends ConsumerState<Home> {
     );
   }
 
-  fetchGetProducts() {
-    final dataState = ref.read(productControllerProvider).getAllProducts();
+  fetchGetProducts() async {
+    final dataState =
+        await ref.read(productControllerProvider).getAllProducts();
     if (dataState is DataSuccess) {
       log(dataState.toString());
-      final data = dataState.
-      products = data;
+      final data = dataState.data;
+      products.addAll(data?.products ?? []);
+    } else {
+      log(dataState.toString());
     }
+    setState(() {});
   }
 }

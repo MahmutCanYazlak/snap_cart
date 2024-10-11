@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/utility/enum/api_endpoints.dart';
 import 'package:snap_cart/config/utility/enum/api_methods.dart';
@@ -23,13 +25,14 @@ class ProductRepository {
       );
       if (result.data != null) {
         final products = GetAllProducts.fromMap(result.data);
+        log("products: $products");
         return DataSuccess(data: products);
       } else {
+        log(result.message ?? "Hata");
         return DataError(message: result.message);
       }
     } catch (e) {
-      return DataError(message: e.toString());
+      throw Exception(e);
     }
   }
 }
-

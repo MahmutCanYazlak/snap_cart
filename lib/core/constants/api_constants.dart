@@ -7,7 +7,7 @@ final apiConstantNotifier = ChangeNotifierProvider<ApiConstants>((ref) {
 
 class ApiConstants extends ChangeNotifier {
   ApiConstants();
-  static String baseUrl = "https://dummyjson.com/products";
+  static String baseUrl = "https://dummyjson.com/";
 
   Future<String> setBaseUrl(String url) async {
     baseUrl = url;
