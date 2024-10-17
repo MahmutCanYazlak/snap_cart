@@ -1,5 +1,6 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:snap_cart/core/models/getMethods/get_alll_products.dart';
 
 import '../../../config/constants/app_constants/duration_constants.dart';
 import '../../../config/items/app_colors.dart';
@@ -45,7 +46,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
               svgPath: ImageConstants.icons.getSvg,
               extras: {"label": "profile"}),
         ],
-        onChange: _handleNavigationChange,
+        onChange: handleNavigationChange,
         style: const FluidNavBarStyle(
             iconUnselectedForegroundColor: AppColors.grayColor,
             barBackgroundColor: AppColors.bottomNavbarColor),
@@ -59,7 +60,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     );
   }
 
-  void _handleNavigationChange(int index) {
+  void handleNavigationChange(int index) {
     setState(() {
       switch (index) {
         case 0:
@@ -69,7 +70,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           _child = const Login();
           break;
         case 2:
-          _child = const ProductDetail();
+          _child = const Login();
           break;
         case 3:
           _child = const Login();

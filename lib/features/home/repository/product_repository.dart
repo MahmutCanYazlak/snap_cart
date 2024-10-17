@@ -17,22 +17,24 @@ class ProductRepository {
   ProductRepository(this._apiService);
 
   //Ürünleri getirme
-  Future<DataState<GetAllProducts>> getAllProducts() async {
+  Future<DataState<List<Product>>> getAllProducts() async {
     try {
       final result = await _apiService.currencyRequest(
         method: ApiMethods.get.method,
         url: ApiEndpoints.getProducts.getEndpoint,
       );
       if (result.data != null) {
-        final products = GetAllProducts.fromMap(result.data);
-        log("products: $products");
-        return DataSuccess(data: products);
+        //bir map değişkeni oluşturduk ve result.data'yı map'e çevirdik
+        final Map<String, dynamic> map = result.data as Map<String, dynamic>;
+        //map değişkenini GetAllProducts.fromMap fonksiyonuna gönderdik ve geriye GetAllProducts objesi döndük
+        final GetAllProducts getAllProducts = GetAllProducts.fromMap(map);
+        //getAllProducts objesinin products değişkenini döndük
+        return DataSuccess(data: getAllProducts.products);
       } else {
-        log(result.message ?? "Hata");
         return DataError(message: result.message);
       }
     } catch (e) {
-      throw Exception(e);
+      return DataError(message: e.toString());
     }
   }
 }
