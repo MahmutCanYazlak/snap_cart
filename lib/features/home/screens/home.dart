@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
+import 'package:snap_cart/config/routes/app_route_name.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
+import 'package:snap_cart/features/home/widgets/product_grid.dart';
 
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
@@ -24,11 +27,10 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   int selectedIndex = -1;
   int pageIndex = 0;
-  List<Products> products = [];
+  List<Product> products = [];
 
   @override
   void initState() {
-    fetchGetProducts();
     super.initState();
   }
 
@@ -180,76 +182,11 @@ class _HomeState extends ConsumerState<Home> {
                   ],
                 ),
               ),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Sütun sayısı
-                    childAspectRatio: .7, // Oran
-                    crossAxisSpacing: 10, // Yatay boşluk
-                    mainAxisSpacing: 10, // Dikey boşluk
-                  ),
-                  padding: EdgeInsetsDirectional.only(
-                      top: 0, bottom: context.height * 0.085),
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            ImageConstants.foodPizza.getPng,
-                          ),
-                          const Text(
-                            'Margherita Pizza',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.blackColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            'Cheesy pizza 🔥',
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: AppColors.grayColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const Text(
-                            '₹ 200',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.blackColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              )
+              const ProductGrid(),
             ],
           ),
         ),
       ),
     );
-  }
-
-  fetchGetProducts() async {
-    final dataState =
-        await ref.read(productControllerProvider).getAllProducts();
-    if (dataState is DataSuccess) {
-      log(dataState.toString());
-      final data = dataState.data;
-      products.addAll(data?.products ?? []);
-    } else {
-      log(dataState.toString());
-    }
-    setState(() {});
   }
 }

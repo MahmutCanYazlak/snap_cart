@@ -9,7 +9,7 @@ final productControllerProvider = Provider((ref) {
 });
 
 final getAllProductsProvider =
-    FutureProvider<DataState<GetAllProducts>>((ref) async {
+    FutureProvider<DataState<List<Product>>>((ref) async {
   final controller = ref.read(productControllerProvider);
   return controller.getAllProducts();
 });
@@ -18,7 +18,7 @@ class ProductController {
   final ProductRepository _productRepository;
   ProductController(this._productRepository);
 
-  Future<DataState<GetAllProducts>> getAllProducts() async {
+  Future<DataState<List<Product>>> getAllProducts() async {
     try {
       return await _productRepository.getAllProducts();
     } catch (e) {

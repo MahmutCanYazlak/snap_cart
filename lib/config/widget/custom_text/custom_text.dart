@@ -9,11 +9,13 @@ class CustomText extends StatefulWidget {
     required this.label,
     this.weight,
     this.color,
+    this.textAlign,
   });
   final double? size;
   final String label;
   final FontWeight? weight;
   final Color? color;
+  final TextAlign? textAlign;
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -30,7 +32,7 @@ class _CustomTextState extends State<CustomText> {
         fontWeight: widget.weight ?? FontWeight.w700,
         color: widget.color ?? AppColors.blackColor,
       ),
-      textAlign: TextAlign.center,
+      textAlign: widget.textAlign ?? TextAlign.center,
     );
   }
 }
