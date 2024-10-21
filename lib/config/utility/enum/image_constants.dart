@@ -21,6 +21,7 @@ enum ImageConstants {
   timeCircle("time"),
   fire("fire"),
   star("star"),
+  basket("basket"),
   ;
 
   final String value;

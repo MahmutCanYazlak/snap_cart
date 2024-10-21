@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 
-
 class CustomSquareButton extends StatelessWidget {
   const CustomSquareButton({
     super.key,

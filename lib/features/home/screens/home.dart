@@ -1,18 +1,11 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
-import 'package:snap_cart/config/routes/app_route_name.dart';
-import 'package:snap_cart/core/resources/data_state.dart';
 import 'package:snap_cart/features/home/widgets/product_grid.dart';
-
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
 import '../../../core/models/getMethods/get_alll_products.dart';
-import '../controller/product_controller.dart';
 import '../widgets/categories_item.dart';
 
 void main() => runApp(const Home());
