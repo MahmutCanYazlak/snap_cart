@@ -10,6 +10,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SnapCart',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+        ),
         useMaterial3: true,
       ),
       onGenerateRoute: AppRouter.onGenerateRoutes,

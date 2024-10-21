@@ -1,13 +1,11 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:snap_cart/core/models/getMethods/get_alll_products.dart';
 
 import '../../../config/constants/app_constants/duration_constants.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../auth/view/login.dart';
 import '../../home/screens/home.dart';
-import '../../product/screens/product_detail.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});

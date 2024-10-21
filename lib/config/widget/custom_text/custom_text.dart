@@ -10,12 +10,16 @@ class CustomText extends StatefulWidget {
     this.weight,
     this.color,
     this.textAlign,
+    this.textDecoration,
+    this.bottomPadding = 0,
   });
   final double? size;
   final String label;
   final FontWeight? weight;
   final Color? color;
   final TextAlign? textAlign;
+  final TextDecoration? textDecoration;
+  final double? bottomPadding;
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -24,15 +28,26 @@ class CustomText extends StatefulWidget {
 class _CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
-    return Text(
-      widget.label,
-      style: TextStyle(
-        fontFamily: "Gilroy-Semibold",
-        fontSize: widget.size ?? 18,
-        fontWeight: widget.weight ?? FontWeight.w700,
-        color: widget.color ?? AppColors.blackColor,
-      ),
-      textAlign: widget.textAlign ?? TextAlign.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          widget.label,
+          style: TextStyle(
+            decoration: widget.textDecoration ?? TextDecoration.none,
+            fontFamily: "Gilroy-Semibold",
+            fontSize: widget.size ?? 18,
+            fontWeight: widget.weight ?? FontWeight.w700,
+            color: widget.color ?? AppColors.blackColor,
+          ),
+          textAlign: widget.textAlign ?? TextAlign.center,
+        ),
+        widget.bottomPadding != 0
+            ? SizedBox(
+                height: widget.bottomPadding,
+              )
+            : const SizedBox(),
+      ],
     );
   }
 }
