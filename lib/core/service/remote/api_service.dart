@@ -28,7 +28,7 @@ class ApiService extends ChangeNotifier {
     Map<String, dynamic>? query,
   }) async {
     try {
-      final headerAuth = "Basic $encodedData";
+      final data = "Basic $encodedData";
       final response = await _dio.request(
         url,
         data: data,
@@ -46,10 +46,6 @@ class ApiService extends ChangeNotifier {
           followRedirects: false,
           // will not throw errors
           validateStatus: (status) => true,
-          headers: {
-            'accept': '*/*',
-            'Authorization': headerAuth,
-          },
         ),
       );
       if (response.statusCode == 200) {
@@ -97,8 +93,11 @@ class ApiService extends ChangeNotifier {
   }
 
   Future<void> setUser(String username, String password) async {
-    String userData = "$username:$password";
-    encodedData = base64.encode(utf8.encode(userData));
+    Map<String, dynamic> userData = {
+      "username": username,
+      "password": password
+    };
+    encodedData = base64.encode(utf8.encode(""));
     notifyListeners();
   }
 }

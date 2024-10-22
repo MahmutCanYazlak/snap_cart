@@ -10,11 +10,13 @@ class ProductImageCarousel extends StatelessWidget {
     required this.images,
     required this.selectedIndex,
     required this.onPageChanged,
+    required this.pageController,
   });
 
   final List<String> images;
   final int selectedIndex;
   final ValueChanged<int> onPageChanged;
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,11 @@ class ProductImageCarousel extends StatelessWidget {
       child: SizedBox(
         height: context.height * 0.35,
         child: PageView.builder(
+          controller: pageController,
           itemCount: images.length,
           itemBuilder: (context, index) {
             return InteractiveViewer(
+              
               panEnabled: true,
               minScale: 0.1,
               maxScale: 3.0,

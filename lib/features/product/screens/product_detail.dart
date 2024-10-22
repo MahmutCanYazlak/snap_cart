@@ -60,7 +60,6 @@ class _ProductDetailState extends State<ProductDetail> {
               ))
         ],
         centerTitle: true,
-        
         leadingWidth: context.width * 0.15,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
@@ -90,6 +89,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   height: context.height * 0.12,
                 ),
                 ProductImageCarousel(
+                  pageController: _pageController,
                   images: widget.product.images,
                   selectedIndex: widget.product.id,
                   onPageChanged: (index) {
