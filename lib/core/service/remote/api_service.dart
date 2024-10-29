@@ -21,10 +21,10 @@ class ApiService extends ChangeNotifier {
     Map<String, dynamic>? query,
   }) async {
     try {
-      // final data = "Basic $encodedData";
+      final data = "Basic $encodedData";
       final response = await _dio.request(
         url,
-        data: data ?? encodedData,
+        data: data,
         queryParameters: query,
         onSendProgress: (int sent, int total) {
           // log("$sent $total");
@@ -85,7 +85,7 @@ class ApiService extends ChangeNotifier {
     }
   }
 
-  /*  Future<void> setUser(String username, String password) async {
+  Future<void> setUser(String username, String password) async {
     encodedData = {
       "username": username,
       "password": password,
@@ -93,5 +93,5 @@ class ApiService extends ChangeNotifier {
     };
 
     notifyListeners();
-  } */
+  }
 }

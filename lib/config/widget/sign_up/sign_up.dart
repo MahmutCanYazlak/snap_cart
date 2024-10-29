@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
 
 import '../../../features/auth/controller/auth_controller.dart';
-import '../../../features/auth/view/login.dart';
+import '../../../features/auth/screens/login.dart';
 import '../../items/app_colors.dart';
 import '../../routes/app_route_name.dart';
 import '../../utility/enum/image_constants.dart';
@@ -26,11 +28,9 @@ class SignUpView extends ConsumerStatefulWidget {
 }
 
 class _SignUpViewState extends ConsumerState<SignUpView> {
-  AuthController? authController;
   @override
   void initState() {
     super.initState();
-    authController = ref.watch(authControllerProvider);
   }
 
   @override
@@ -57,7 +57,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
               ),
               CustomTextField(
                 emailController: widget._emailController,
-                labelText: 'Email',
+                labelText: 'Name',
               ),
               CustomTextField(
                 emailController: widget._passwordController,
@@ -66,6 +66,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
               InkWell(
                 onTap: () async {
                   // Kullanıcı girişini tetikleyelim
+
                   final authController = ref.read(authControllerProvider);
 
                   final result = await authController.login(
