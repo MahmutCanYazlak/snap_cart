@@ -16,18 +16,22 @@ class AuthRepository {
 
   AuthRepository(this._apiService);
 
-  Future<DataState<UserModel>> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<DataState<UserModel>> login(
+      {required String email, required String password}) async {
     try {
       final result = await _apiService.request(
-          method: ApiMethods.post.method,
-          url: ApiEndpoints.postLogin.getEndpoint);
+        method: ApiMethods.post.method,
+        url: ApiEndpoints.postLogin.getEndpoint,
+        data: {
+          "username": email,
+          "password": password,
+        },
+      );
+
       if (result is DataSuccess) {
         return DataSuccess(data: UserModel.fromJson(result.data));
       } else {
-        return DataError(message: "Hata");
+        return DataError(message: "Giriş başarısız.");
       }
     } on DioException catch (e) {
       return DataError(message: e.toString());
