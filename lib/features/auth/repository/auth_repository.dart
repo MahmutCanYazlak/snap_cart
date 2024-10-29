@@ -19,7 +19,7 @@ class AuthRepository {
   Future<DataState<UserModel>> login(
       {required String email, required String password}) async {
     try {
-      final result = await _apiService.request(
+      final result = await _apiService.currencyRequest(
         method: ApiMethods.post.method,
         url: ApiEndpoints.postLogin.getEndpoint,
         data: {
@@ -29,7 +29,9 @@ class AuthRepository {
       );
 
       if (result is DataSuccess) {
-        return DataSuccess(data: UserModel.fromJson(result.data));
+        final Map<String, dynamic> map = result.data as Map<String, dynamic>;
+        final UserModel userModel = UserModel.fromMap(map);
+        return DataSuccess(data: userModel);
       } else {
         return DataError(message: "Giriş başarısız.");
       }

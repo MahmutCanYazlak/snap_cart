@@ -17,8 +17,10 @@ class AuthController {
     required String email,
     required String password,
   }) async {
-    final result =
-        await _authRepository.login(email: email, password: password);
-    return result;
+    try {
+      return await _authRepository.login(email: email, password: password);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

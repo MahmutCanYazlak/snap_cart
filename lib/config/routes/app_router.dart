@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:snap_cart/core/models/getMethods/get_alll_products.dart';
 
-import '../../features/auth/view/login.dart';
-import '../../features/bottomNavbar/view/bottom_navbar.dart';
+import '../../features/auth/screens/login.dart';
+import '../../features/bottomNavbar/screens/bottom_navbar.dart';
 import '../../features/product/screens/product_detail.dart';
 import 'app_route_name.dart';
 

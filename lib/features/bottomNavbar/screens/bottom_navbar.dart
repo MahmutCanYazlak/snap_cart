@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../config/constants/app_constants/duration_constants.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
-import '../../auth/view/login.dart';
+import '../../auth/screens/login.dart';
 import '../../home/screens/home.dart';
 
 class BottomNavbar extends StatefulWidget {
