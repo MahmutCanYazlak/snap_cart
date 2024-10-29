@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,16 +8,10 @@ import '../../resources/data_state.dart';
 final apiServiceNotifier = ChangeNotifierProvider<ApiService>((ref) {
   return ApiService(Dio());
 });
-//!Kullanma
-// final apiServiceProvider = Provider(
-//   (ref) => ApiService(
-//     Dio(),
-//   ),
-// );
 
 class ApiService extends ChangeNotifier {
   final Dio _dio;
-  String encodedData = "";
+  Map<String, dynamic> encodedData = {};
   ApiService(this._dio);
 
   Future<DataState<dynamic>> request({
@@ -28,10 +21,10 @@ class ApiService extends ChangeNotifier {
     Map<String, dynamic>? query,
   }) async {
     try {
-      final data = "Basic $encodedData";
+      // final data = "Basic $encodedData";
       final response = await _dio.request(
         url,
-        data: data,
+        data: data ?? encodedData,
         queryParameters: query,
         onSendProgress: (int sent, int total) {
           // log("$sent $total");
@@ -92,12 +85,13 @@ class ApiService extends ChangeNotifier {
     }
   }
 
-  Future<void> setUser(String username, String password) async {
-    Map<String, dynamic> userData = {
+  /*  Future<void> setUser(String username, String password) async {
+    encodedData = {
       "username": username,
-      "password": password
+      "password": password,
+      "expiresInMins": 30,
     };
-    encodedData = base64.encode(utf8.encode(""));
+
     notifyListeners();
-  }
+  } */
 }

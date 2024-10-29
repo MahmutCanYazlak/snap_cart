@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
+import 'package:snap_cart/core/resources/data_state.dart';
 
+import '../../../features/auth/controller/auth_controller.dart';
 import '../../../features/auth/view/login.dart';
 import '../../items/app_colors.dart';
 import '../../routes/app_route_name.dart';
 import '../../utility/enum/image_constants.dart';
 import '../custom_text_field/custom_text_field.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({
     super.key,
     required TextEditingController emailController,
@@ -17,6 +20,18 @@ class SignUpView extends StatelessWidget {
 
   final TextEditingController _emailController;
   final TextEditingController _passwordController;
+
+  @override
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends ConsumerState<SignUpView> {
+  AuthController? authController;
+  @override
+  void initState() {
+    super.initState();
+    authController = ref.watch(authControllerProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +56,33 @@ class SignUpView extends StatelessWidget {
                 ],
               ),
               CustomTextField(
-                  emailController: _emailController, labelText: 'Email'),
+                emailController: widget._emailController,
+                labelText: 'Email',
+              ),
               CustomTextField(
-                  emailController: _passwordController, labelText: "Password"),
+                emailController: widget._passwordController,
+                labelText: "Password",
+              ),
               InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteNames.bottomNavbar);
+                onTap: () async {
+                  // Kullanıcı girişini tetikleyelim
+                  final authController = ref.read(authControllerProvider);
+
+                  final result = await authController.login(
+                    email: widget._emailController.text,
+                    password: widget._passwordController.text,
+                  );
+
+                  if (result is DataSuccess) {
+                    // Başarılı ise ana sayfaya yönlendir
+                    Navigator.pushNamed(context, RouteNames.bottomNavbar);
+                  } else {
+                    // Başarısız ise hata mesajını göster
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(result.message ?? 'Giriş başarısız')),
+                    );
+                  }
                 },
                 child: Container(
                   height: context.height * 0.06,
