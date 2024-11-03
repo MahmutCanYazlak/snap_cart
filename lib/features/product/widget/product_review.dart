@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
-import 'package:snap_cart/features/product/widget/RecipeInfo.dart';
+import 'package:snap_cart/features/product/widget/recipen_info.dart';
 
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
