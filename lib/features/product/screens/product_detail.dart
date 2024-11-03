@@ -5,10 +5,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
-import '../widget/ProductImageCarousel.dart';
-import '../widget/ProductReview.dart';
-import '../widget/QuantitySelector.dart';
-import '../widget/RecipeInfo.dart';
+import '../widget/product_image_carousel.dart';
+import '../widget/product_review.dart';
+import '../widget/quantity_selector.dart';
+import '../widget/recipen_info.dart';
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key, required this.product});
