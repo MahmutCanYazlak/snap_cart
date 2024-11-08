@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
+import 'package:snap_cart/core/service/remote/api_service.dart';
 
 import '../../../features/auth/controller/auth_controller.dart';
 import '../../../features/auth/screens/login.dart';
@@ -75,7 +76,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                   );
 
                   if (result is DataSuccess) {
-                    // Başarılı ise ana sayfaya yönlendir
+                    final data = result.data;
+                    ref
+                        .watch(apiServiceNotifier)
+                        .updateBearerToken(data?.accessToken);
                     Navigator.pushNamed(context, RouteNames.bottomNavbar);
                   } else {
                     // Başarısız ise hata mesajını göster

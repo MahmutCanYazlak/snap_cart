@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/utility/enum/api_endpoints.dart';
 import 'package:snap_cart/config/utility/enum/api_methods.dart';
@@ -19,7 +17,7 @@ class ProductRepository {
   //Ürünleri getirme
   Future<DataState<List<Product>>> getAllProducts() async {
     try {
-      final result = await _apiService.currencyRequest(
+      final result = await _apiService.request(
         method: ApiMethods.get.method,
         url: ApiEndpoints.getProducts.getEndpoint,
       );
