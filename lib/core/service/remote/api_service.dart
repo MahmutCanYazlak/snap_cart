@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 import '../../resources/data_state.dart';
 
@@ -11,7 +11,9 @@ final apiServiceNotifier = ChangeNotifierProvider<ApiService>((ref) {
 
 class ApiService extends ChangeNotifier {
   final Dio _dio;
-  Map<String, dynamic> encodedData = {};
+
+  String? _bearerToken = "";
+
   ApiService(this._dio);
 
   Future<DataState<dynamic>> request({
@@ -21,77 +23,55 @@ class ApiService extends ChangeNotifier {
     Map<String, dynamic>? query,
   }) async {
     try {
-      final data = "Basic $encodedData";
       final response = await _dio.request(
         url,
         data: data,
         queryParameters: query,
-        onSendProgress: (int sent, int total) {
-          // log("$sent $total");
-        },
-        options: Options(
-          sendTimeout: const Duration(milliseconds: 55000000000000),
-          method: method,
-          contentType: "application/json",
-          maxRedirects: 5,
-          receiveTimeout: const Duration(milliseconds: 5500000000000),
-          responseType: ResponseType.json,
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
+        onSendProgress: _logProgress,
+        options: _buildOptions(method),
       );
+
       if (response.statusCode == 200) {
+        Logger().i("Response: ${response.data}");
         return DataSuccess(data: response.data);
       } else {
-        return DataError(message: "Hata");
+        return DataError(
+          message: response.statusMessage ?? "Unexpected error occurred",
+        );
       }
     } on DioException catch (e) {
-      return DataError(message: e.message);
+      Logger().e(e);
+      return DataError(message: e.message ?? "DioException occurred");
+    } catch (e) {
+      Logger().e(e);
+      return DataError(message: "An unexpected error occurred: $e");
     }
   }
 
-  Future<DataState<dynamic>> currencyRequest({
-    required String method,
-    required String url,
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? query,
-  }) async {
-    try {
-      final response = await _dio.request(
-        url,
-        data: data,
-        queryParameters: query,
-        onSendProgress: (int sent, int total) {},
-        options: Options(
-          sendTimeout: const Duration(milliseconds: 55000),
-          method: method,
-          contentType: "application/json",
-          maxRedirects: 5,
-          receiveTimeout: const Duration(milliseconds: 55000),
-          responseType: ResponseType.json,
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
-      );
-      if (response.statusCode == 200) {
-        return DataSuccess(data: response.data);
-      } else {
-        return DataError(message: response.statusMessage);
-      }
-    } on DioException catch (e) {
-      return DataError(message: e.message);
-    }
+  Options _buildOptions(String method) {
+    return Options(
+      method: method,
+      sendTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      headers: {
+        "Authorization": "Bearer $_bearerToken",
+      },
+      contentType: Headers.jsonContentType,
+      responseType: ResponseType.json,
+      followRedirects: false,
+      validateStatus: (status) => status != null && status < 500,
+    );
   }
 
-  Future<void> setUser(String username, String password) async {
-    encodedData = {
-      "username": username,
-      "password": password,
-      "expiresInMins": 30,
-    };
-
+  void updateBearerToken(String? token) {
+    _bearerToken = token;
     notifyListeners();
+  }
+
+  void _logProgress(int sent, int total) {
+    if (kDebugMode) {
+      Logger()
+          .i("Upload progress: ${((sent / total) * 100).toStringAsFixed(2)}%");
+    }
   }
 }

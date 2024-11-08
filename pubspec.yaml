@@ -43,6 +43,7 @@ dependencies:
   permission_handler: ^11.3.1
   cached_network_image: ^3.4.1
   smooth_page_indicator: ^1.2.0+3
+  logger: ^2.4.0
 
 dev_dependencies:
   flutter_test:
