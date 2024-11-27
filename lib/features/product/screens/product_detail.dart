@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
-import 'package:snap_cart/core/models/getMethods/get_alll_products.dart';
+import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';

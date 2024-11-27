@@ -6,9 +6,9 @@ abstract class DataState<T> {
 }
 
 class DataSuccess<T> extends DataState<T> {
-  DataSuccess({T? data}) : super(data: data);
+  DataSuccess({super.data});
 }
 
 class DataError<T> extends DataState<T> {
-  DataError({String? message}) : super(message: message);
+  DataError({super.message});
 }
