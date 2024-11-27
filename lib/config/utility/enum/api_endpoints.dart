@@ -2,7 +2,7 @@ import '../../../core/constants/api_constants.dart';
 
 enum ApiEndpoints {
   getProducts("products"),
-  getCategories("categories"),
+  getCategories("products/categories"),
   postLogin("user/login"),
   ;
 

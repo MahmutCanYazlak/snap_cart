@@ -5,7 +5,7 @@ import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/config/routes/app_route_name.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
 import '../../../config/items/app_colors.dart';
-import '../../../core/models/getMethods/get_alll_products.dart';
+import '../../../core/models/getMethods/products/get_alll_products.dart';
 import '../controller/product_controller.dart';
 
 class ProductGrid extends ConsumerWidget {

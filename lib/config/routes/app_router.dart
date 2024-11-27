@@ -1,7 +1,7 @@
 // ignore_for_file: unused_element
 
 import 'package:flutter/material.dart';
-import 'package:snap_cart/core/models/getMethods/get_alll_products.dart';
+import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart';
 
 import '../../features/auth/screens/login.dart';
 import '../../features/bottomNavbar/screens/bottom_navbar.dart';

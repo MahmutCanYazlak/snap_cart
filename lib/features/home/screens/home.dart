@@ -5,7 +5,7 @@ import 'package:snap_cart/features/home/widgets/product_grid.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
-import '../../../core/models/getMethods/get_alll_products.dart';
+import '../../../core/models/getMethods/products/get_alll_products.dart';
 import '../widgets/categories_item.dart';
 
 void main() => runApp(const Home());
