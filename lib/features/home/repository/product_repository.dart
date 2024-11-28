@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/utility/enum/api_endpoints.dart';
 import 'package:snap_cart/config/utility/enum/api_methods.dart';
@@ -10,6 +11,9 @@ final productRepositoryProvider = Provider((ref) {
   final apiService = ref.watch(apiServiceNotifier);
   return ProductRepository(apiService);
 });
+
+final productsNotifierProvider =
+    ChangeNotifierProvider((ref) => ProductsNotifier());
 
 class ProductRepository {
   final ApiService _apiService;
@@ -37,22 +41,37 @@ class ProductRepository {
     }
   }
 
-  Future<DataState> getAllCategories() async {
+  Future<DataState<List<GetAllCategoriesModel>>> getAllCategories() async {
     try {
       final result = await _apiService.request(
         method: ApiMethods.get.method,
         url: ApiEndpoints.getCategories.getEndpoint,
       );
       if (result.data != null) {
-        final Map<String, dynamic> map = result.data as Map<String, dynamic>;
-        final GetAllCategoriesModel getAllCategoriesModel =
-            GetAllCategoriesModel.fromMap(map);
-        return DataSuccess(data: getAllCategoriesModel);
+        final List<dynamic> list = result.data as List<dynamic>;
+        final List<GetAllCategoriesModel> categories = list
+            .map((item) =>
+                GetAllCategoriesModel.fromMap(item as Map<String, dynamic>))
+            .toList();
+        return DataSuccess(data: categories);
       } else {
-        return DataError(message: result.message);
+        return DataError(message: result.message ?? 'Bir hata oluştu');
       }
     } catch (e) {
       return DataError(message: e.toString());
     }
+  }
+}
+
+class ProductsNotifier extends ChangeNotifier {
+  Future<List<Product>> _products = Future.value([]);
+
+  //get
+  Future<List<Product>> get products => _products;
+
+  //set
+  void setProducts(Future<List<Product>> products) {
+    _products = products;
+    notifyListeners();
   }
 }

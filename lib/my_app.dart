@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
               ref
                   .read(apiServiceNotifier)
                   .updateBearerToken(userData?.accessToken);
-            });
+            }); 
 
             return MaterialApp(
               debugShowCheckedModeBanner: false,

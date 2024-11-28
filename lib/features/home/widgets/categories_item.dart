@@ -7,13 +7,12 @@ import '../../../config/utility/enum/image_constants.dart';
 
 class CatagoriesItemWidget extends StatelessWidget {
   const CatagoriesItemWidget({
-    required this.image,
     required this.text,
     required this.isSelected,
     required this.onTap,
     super.key,
   });
-  final ImageConstants image;
+
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
@@ -25,31 +24,34 @@ class CatagoriesItemWidget extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: context.width * 0.28,
+            height: context.height * 0.15,
+            width: context.width * 0.295,
             decoration: BoxDecoration(
               color: isSelected ? AppColors.darkPuple : AppColors.whiteColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset(
-                  image.getPng,
-                ),
-                Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.blackColor,
+            child: Padding(
+              padding: context.paddingHorizontalLow,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    text,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blackColor,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SvgPicture.asset(
-                  ImageConstants.right.getSvg,
-                ),
-              ],
+                  SvgPicture.asset(
+                    ImageConstants.right.getSvg,
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(
