@@ -1,12 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
+import 'package:snap_cart/core/resources/data_state.dart';
+import 'package:snap_cart/features/home/controller/product_controller.dart';
+import 'package:snap_cart/features/home/widgets/categories_item.dart';
+import 'package:snap_cart/features/home/widgets/categories_widget.dart';
 import 'package:snap_cart/features/home/widgets/product_grid.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
+import '../../../core/models/getMethods/products/get_all_categories_model.dart';
 import '../../../core/models/getMethods/products/get_alll_products.dart';
-import '../widgets/categories_item.dart';
 
 void main() => runApp(const Home());
 
@@ -21,10 +26,24 @@ class _HomeState extends ConsumerState<Home> {
   int selectedIndex = -1;
   int pageIndex = 0;
   List<Product> products = [];
+  List<GetAllCategoriesModel> categories = [];
+  Future<List<GetAllCategoriesModel>>? categoriesFuture;
 
   @override
   void initState() {
     super.initState();
+    categoriesFuture = fetchGetCategories(context, ref);
+  }
+
+  Future<List<GetAllCategoriesModel>> fetchGetCategories(
+      BuildContext context, WidgetRef ref) async {
+    final dataState =
+        await ref.read(productControllerProvider).getAllCategories();
+    if (dataState is DataSuccess) {
+      return dataState.data ?? [];
+    } else {
+      return [];
+    }
   }
 
   @override
@@ -72,110 +91,60 @@ class _HomeState extends ConsumerState<Home> {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: context.width * 0.03),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: context.height * 0.12,
-              ),
-              const CustomText(
-                  size: 20,
-                  label: "Get you food",
-                  weight: FontWeight.w500,
-                  color: AppColors.grayColor),
-              const CustomText(
-                size: 35,
-                label: "Delivered!",
-                weight: FontWeight.w700,
-                color: AppColors.blackColor,
-              ),
-              SizedBox(
-                height: context.height * 0.02,
-              ),
-              const CustomText(
-                  size: 22,
-                  label: "Categories",
-                  weight: FontWeight.w500,
-                  color: AppColors.blackColor),
-              SizedBox(
-                height: context.height * 0.02,
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.zero,
-                child: SizedBox(
-                  height: context.height * 0.2,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      CatagoriesItemWidget(
-                        image: ImageConstants.pizza,
-                        text: 'Pizza',
-                        isSelected: selectedIndex == 0,
-                        onTap: () {
-                          setState(() {
-                            if (selectedIndex == 0) {
-                              selectedIndex = -1;
-                            } else {
-                              selectedIndex = 0;
-                            }
-                          });
-                        },
-                      ),
-                      CatagoriesItemWidget(
-                        image: ImageConstants.burger,
-                        text: 'Burger',
-                        isSelected: selectedIndex == 1,
-                        onTap: () {
-                          setState(() {
-                            if (selectedIndex == 1) {
-                              selectedIndex = -1;
-                            } else {
-                              selectedIndex = 1;
-                            }
-                          });
-                        },
-                      ),
-                      CatagoriesItemWidget(
-                        image: ImageConstants.popcorn,
-                        text: 'Popcorn',
-                        isSelected: selectedIndex == 2,
-                        onTap: () {
-                          setState(() {
-                            if (selectedIndex == 2) {
-                              selectedIndex = -1;
-                            } else {
-                              selectedIndex = 2;
-                            }
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: context.height * 0.03,
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: context.height * 0.01),
-                child: const Row(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomText(
+                    SizedBox(
+                      height: context.height * 0.12,
+                    ),
+                    const CustomText(
+                        size: 20,
+                        label: "Get you food",
+                        weight: FontWeight.w500,
+                        color: AppColors.grayColor),
+                    const CustomText(
+                      size: 35,
+                      label: "Delivered!",
+                      weight: FontWeight.w700,
+                      color: AppColors.blackColor,
+                    ),
+                    SizedBox(
+                      height: context.height * 0.02,
+                    ),
+                    const CustomText(
                         size: 22,
-                        label: "Popular Now",
+                        label: "Categories",
                         weight: FontWeight.w500,
                         color: AppColors.blackColor),
-                    Spacer(),
-                    CustomText(
-                        size: 15,
-                        label: "View All",
-                        weight: FontWeight.w500,
-                        color: AppColors.blackColor),
+                    SizedBox(
+                      height: context.height * 0.001,
+                    ),
+                    CategoriesWidget(
+                      categoriesFuture: categoriesFuture,
+                    ),
+                    SizedBox(
+                      height: context.height * 0.006,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: context.height * 0.01),
+                      child: const Row(
+                        children: [
+                          CustomText(
+                              size: 22,
+                              label: "Popular Now",
+                              weight: FontWeight.w500,
+                              color: AppColors.blackColor),
+                        ],
+                      ),
+                    ),
+                    const ProductGrid(),
                   ],
                 ),
               ),
-              const ProductGrid(),
             ],
           ),
         ),
