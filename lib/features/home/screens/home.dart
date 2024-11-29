@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
 import 'package:snap_cart/features/home/controller/product_controller.dart';
-import 'package:snap_cart/features/home/widgets/categories_item.dart';
+import 'package:snap_cart/features/home/repository/product_repository.dart';
 import 'package:snap_cart/features/home/widgets/categories_widget.dart';
 import 'package:snap_cart/features/home/widgets/product_grid.dart';
 import '../../../config/items/app_colors.dart';
@@ -25,14 +24,16 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   int selectedIndex = -1;
   int pageIndex = 0;
-  List<Product> products = [];
-  List<GetAllCategoriesModel> categories = [];
+  Future<List<Product>> products = Future.value([]);
   Future<List<GetAllCategoriesModel>>? categoriesFuture;
+  bool isFetch = false;
 
   @override
   void initState() {
     super.initState();
     categoriesFuture = fetchGetCategories(context, ref);
+    products = fetchGetProducts(context, ref);
+    isFetch = ref.read(productsByCategoryNotifierProvider).isFetching;
   }
 
   Future<List<GetAllCategoriesModel>> fetchGetCategories(
@@ -43,6 +44,17 @@ class _HomeState extends ConsumerState<Home> {
       return dataState.data ?? [];
     } else {
       return [];
+    }
+  }
+
+  Future<List<Product>> fetchGetProducts(
+      BuildContext context, WidgetRef ref) async {
+    final dataState =
+        await ref.read(productControllerProvider).getAllProducts();
+    if (dataState is DataSuccess) {
+      return dataState.data ?? []; // Başarılıysa ürünleri döndür
+    } else {
+      return []; // Başarısızsa boş liste döndür
     }
   }
 
@@ -141,7 +153,15 @@ class _HomeState extends ConsumerState<Home> {
                         ],
                       ),
                     ),
-                    const ProductGrid(),
+                    ProductGrid(
+                      products: ref
+                              .watch(productsByCategoryNotifierProvider)
+                              .isFetching
+                          ? ref
+                              .watch(productsByCategoryNotifierProvider)
+                              .getProducts
+                          : products,
+                    ),
                   ],
                 ),
               ),
