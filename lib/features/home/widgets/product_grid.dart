@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/config/routes/app_route_name.dart';
-import 'package:snap_cart/core/resources/data_state.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../core/models/getMethods/products/get_alll_products.dart';
-import '../controller/product_controller.dart';
 
 class ProductGrid extends ConsumerWidget {
-  const ProductGrid({super.key});
+  final Future<List<Product>>? products;
+  const ProductGrid({super.key, required this.products});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<Product>>(
-      future: fetchGetProducts(context, ref),
+      future: products,
       initialData: const [], // Gerekirse burada başlangıç verisi de verebilirsiniz
       builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -109,16 +108,5 @@ class ProductGrid extends ConsumerWidget {
         }
       },
     );
-  }
-
-  Future<List<Product>> fetchGetProducts(
-      BuildContext context, WidgetRef ref) async {
-    final dataState =
-        await ref.read(productControllerProvider).getAllProducts();
-    if (dataState is DataSuccess) {
-      return dataState.data ?? []; // Başarılıysa ürünleri döndür
-    } else {
-      return []; // Başarısızsa boş liste döndür
-    }
   }
 }

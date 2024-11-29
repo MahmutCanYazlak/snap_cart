@@ -4,6 +4,7 @@ enum ApiEndpoints {
   getProducts("products"),
   getCategories("products/categories"),
   postLogin("user/login"),
+  getProductsByCategory("products/category/"),
   ;
 
   const ApiEndpoints(this.endPoint);

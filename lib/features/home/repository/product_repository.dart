@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/utility/enum/api_endpoints.dart';
@@ -12,8 +14,8 @@ final productRepositoryProvider = Provider((ref) {
   return ProductRepository(apiService);
 });
 
-final productsNotifierProvider =
-    ChangeNotifierProvider((ref) => ProductsNotifier());
+final productsByCategoryNotifierProvider =
+    ChangeNotifierProvider((ref) => ProductsByCategoryNotifier());
 
 class ProductRepository {
   final ApiService _apiService;
@@ -41,6 +43,7 @@ class ProductRepository {
     }
   }
 
+  //Kategorileri getirme
   Future<DataState<List<GetAllCategoriesModel>>> getAllCategories() async {
     try {
       final result = await _apiService.request(
@@ -61,17 +64,41 @@ class ProductRepository {
       return DataError(message: e.toString());
     }
   }
+
+  //Ürünleri kategoriye göre getirme
+  Future<DataState<List<Product>>> getProductsByCategory(
+      String categoryName) async {
+    try {
+      final result = await _apiService.request(
+        method: ApiMethods.get.method,
+        url: ApiEndpoints.getProductsByCategory.getEndpoint + categoryName,
+      );
+      if (result.data != null) {
+        final Map<String, dynamic> map = result.data as Map<String, dynamic>;
+        final GetAllProducts getAllProducts = GetAllProducts.fromMap(map);
+        return DataSuccess(data: getAllProducts.products);
+      } else {
+        return DataError(message: result.message);
+      }
+    } catch (e) {
+      return DataError(message: e.toString());
+    }
+  }
 }
 
-class ProductsNotifier extends ChangeNotifier {
+class ProductsByCategoryNotifier extends ChangeNotifier {
   Future<List<Product>> _products = Future.value([]);
+  bool _isFetching = false;
 
-  //get
-  Future<List<Product>> get products => _products;
+  Future<List<Product>> get getProducts => _products;
+  bool get isFetching => _isFetching;
 
-  //set
-  void setProducts(Future<List<Product>> products) {
-    _products = products;
+  void setProducts(Future<List<Product>>? products,
+      {bool isFetching = false}) async {
+    if (products != null) {
+      _products = products;
+    }
+    _isFetching = isFetching;
     notifyListeners();
   }
 }

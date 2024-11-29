@@ -32,7 +32,7 @@ class ApiService extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        Logger().i("Response: ${response.data}");
+        Logger().w("Response: ${response.data}");
         return DataSuccess(data: response.data);
       } else {
         return DataError(

@@ -39,4 +39,13 @@ class ProductController {
       throw Exception(e);
     }
   }
+
+  Future<DataState<List<Product>>> getProductsByCategory(
+      String categoryName) async {
+    try {
+      return await _productRepository.getProductsByCategory(categoryName);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
