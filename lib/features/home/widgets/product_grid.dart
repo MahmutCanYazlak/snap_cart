@@ -50,7 +50,14 @@ class ProductGrid extends ConsumerWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 184, 160, 241),
+                        Color.fromARGB(255, 243, 237, 237),
+                      ], // Başlangıç ve bitiş renklerini tanımlayın
+                      begin: Alignment.topLeft, // Degrade başlangıç yönü
+                      end: Alignment.bottomRight, // Degrade bitiş yönü
+                    ),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Column(

@@ -1,5 +1,6 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:snap_cart/features/order/screens/order_details.dart';
 
 import '../../../config/constants/app_constants/duration_constants.dart';
 import '../../../config/items/app_colors.dart';
@@ -68,7 +69,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           _child = const Login();
           break;
         case 2:
-          _child = const Login();
+          _child = const OrderDetails();
           break;
         case 3:
           _child = const Login();

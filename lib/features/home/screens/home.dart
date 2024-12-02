@@ -61,7 +61,7 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // AppBar'ın arka planını genişlet
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         actions: [
           Padding(
@@ -118,23 +118,19 @@ class _HomeState extends ConsumerState<Home> {
                         label: "Get you food",
                         weight: FontWeight.w500,
                         color: AppColors.grayColor),
-                    const CustomText(
+                    CustomText(
                       size: 35,
                       label: "Delivered!",
                       weight: FontWeight.w700,
                       color: AppColors.blackColor,
+                      bottomPadding: context.height * 0.02,
                     ),
-                    SizedBox(
-                      height: context.height * 0.02,
-                    ),
-                    const CustomText(
+                    CustomText(
                         size: 22,
                         label: "Categories",
                         weight: FontWeight.w500,
+                        bottomPadding: context.height * 0.001,
                         color: AppColors.blackColor),
-                    SizedBox(
-                      height: context.height * 0.001,
-                    ),
                     CategoriesWidget(
                       categoriesFuture: categoriesFuture,
                     ),

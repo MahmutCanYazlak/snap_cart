@@ -29,18 +29,17 @@ class ProductImageCarousel extends StatelessWidget {
           itemCount: images.length,
           itemBuilder: (context, index) {
             return InteractiveViewer(
-              
               panEnabled: true,
               minScale: 0.1,
               maxScale: 3.0,
               child: CachedNetworkImage(
                 imageUrl: images[index],
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Padding(
-                  padding: context.paddingAllHigh,
-                  child: const CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.primary),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                    valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                   ),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
