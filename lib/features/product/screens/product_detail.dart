@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:snap_cart/core/models/order/cart_item_model.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
+import '../../order/controller/order_controller.dart';
 import '../widget/product_image_carousel.dart';
 import '../widget/product_review.dart';
 import '../widget/quantity_selector.dart';
 import '../widget/recipen_info.dart';
 
-class ProductDetail extends StatefulWidget {
+class ProductDetail extends ConsumerStatefulWidget {
   const ProductDetail({super.key, required this.product});
   final Product product;
 
   @override
-  State<ProductDetail> createState() => _ProductDetailState();
+  ConsumerState<ProductDetail> createState() => _ProductDetailState();
 }
 
-class _ProductDetailState extends State<ProductDetail> {
+class _ProductDetailState extends ConsumerState<ProductDetail> {
   int selectedIndex = 0;
   double originalPrice = 0;
+  int quantity = 0;
   final PageController _pageController = PageController();
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    calculateOriginalPrice();
-  }
+  late final OrderController orderController;
 
   void calculateOriginalPrice() {
     originalPrice =
@@ -43,6 +42,22 @@ class _ProductDetailState extends State<ProductDetail> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    orderController = ref.read(orderControllerProvider);
+    // Sepetteki ürünlerden, şu anki ürüne ait olanı bulup quantity değerini alıyoruz
+    final orderItems = orderController.getCartItems();
+    quantity = 0;
+    for (var i = 0; i < orderItems.length; i++) {
+      if (orderItems[i].product.id == widget.product.id) {
+        quantity++;
+      }
+    }
+
+    calculateOriginalPrice();
   }
 
   @override
@@ -167,12 +182,24 @@ class _ProductDetailState extends State<ProductDetail> {
                         ],
                       ),
                       QuantitySelector(
-                        quantity: 1,
+                        quantity: quantity,
                         onIncrease: () {
                           // Arttırma işlemi
+                          setState(() {
+                            quantity++;
+                          });
+                          orderController.addProductToCart(CartItemModel(
+                              product: widget.product, quantity: quantity));
                         },
                         onDecrease: () {
                           // Azaltma işlemi
+                          if (quantity > 0) {
+                            setState(() {
+                              quantity--;
+                            });
+                            orderController.removeProductFromCart(CartItemModel(
+                                product: widget.product, quantity: quantity));
+                          }
                         },
                       ),
                     ],

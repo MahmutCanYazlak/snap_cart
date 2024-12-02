@@ -5,6 +5,7 @@ import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart
 
 import '../../features/auth/screens/login.dart';
 import '../../features/bottomNavbar/screens/bottom_navbar.dart';
+import '../../features/order/screens/order_details.dart';
 import '../../features/product/screens/product_detail.dart';
 import 'app_route_name.dart';
 
@@ -31,6 +32,11 @@ class AppRouter {
           ProductDetail(
             product: product,
           ),
+        );
+      case RouteNames.orderDetail:
+        return _fadeRoute(
+          settings: settings,
+          view: const OrderDetails(),
         );
       default:
         return _materialRoute(

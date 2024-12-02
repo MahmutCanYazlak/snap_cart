@@ -22,6 +22,7 @@ enum ImageConstants {
   fire("fire"),
   star("star"),
   basket("basket"),
+  backButton("back_button"),
   ;
 
   final String value;

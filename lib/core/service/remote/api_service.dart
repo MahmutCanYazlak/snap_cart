@@ -32,7 +32,6 @@ class ApiService extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        Logger().w("Response: ${response.data}");
         return DataSuccess(data: response.data);
       } else {
         return DataError(
@@ -69,9 +68,6 @@ class ApiService extends ChangeNotifier {
   }
 
   void _logProgress(int sent, int total) {
-    if (kDebugMode) {
-      Logger()
-          .i("Upload progress: ${((sent / total) * 100).toStringAsFixed(2)}%");
-    }
+    if (kDebugMode) {}
   }
 }
