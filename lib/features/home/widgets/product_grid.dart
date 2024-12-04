@@ -30,7 +30,7 @@ class ProductGrid extends ConsumerWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // Sütun sayısı
-              childAspectRatio: .7, // Oran
+              childAspectRatio: .75, // Oran
               crossAxisSpacing: 10, // Yatay boşluk
               mainAxisSpacing: 10, // Dikey boşluk
             ),
