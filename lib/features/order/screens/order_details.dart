@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/features/order/controller/order_controller.dart';
-
+import '../../../config/routes/app_route_name.dart';
 import '../../../config/utility/enum/image_constants.dart';
+import '../widgets/cart_item_list.dart';
+import '../widgets/payment_information_cart.dart';
+import '../widgets/payment_summary.dart';
 
 class OrderDetails extends ConsumerStatefulWidget {
   const OrderDetails({super.key});
@@ -17,9 +20,9 @@ class _OrderDetailsState extends ConsumerState<OrderDetails> {
   Widget build(BuildContext context) {
     final cartController = ref.watch(orderControllerProvider);
     final cartItems = cartController.getCartItems();
+    final Map<String, dynamic> groupedItems = {};
 
     // Ürünleri gruplama işlemi
-    final Map<String, dynamic> groupedItems = {};
     for (var item in cartItems) {
       final productId = item.product.id.toString();
       if (groupedItems.containsKey(productId)) {
@@ -37,6 +40,9 @@ class _OrderDetailsState extends ConsumerState<OrderDetails> {
 
     final groupedCartItems = groupedItems.values.toList();
 
+    var taxesCharges =
+        (cartController.getTotalPrice() * 0.20).toStringAsFixed(2);
+    var discount = (cartController.getTotalPrice() * 0.09).toStringAsFixed(2);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -48,9 +54,14 @@ class _OrderDetailsState extends ConsumerState<OrderDetails> {
           ),
         ),
         leadingWidth: context.width * 0.15,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Image.asset(ImageConstants.backButton.getPng),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Image.asset(ImageConstants.backButton.getPng),
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -66,95 +77,42 @@ class _OrderDetailsState extends ConsumerState<OrderDetails> {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: context.width * 0.03),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: context.height * 0.12,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xafece6f9),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min, // İçeriğe göre boyutlanma
-                    children: [
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true, // Liste boyutu kadar alan kaplar
-                        itemCount: groupedCartItems.length,
-                        itemBuilder: (context, index) {
-                          final item = groupedCartItems[index];
-                          return ListTile(
-                            leading: Image.network(
-                              item['product'].images.first,
-                              fit: BoxFit.cover,
-                              width: context.width * 0.17,
-                              height: context.height * 0.07,
-                            ),
-                            title: Text(
-                              item['product'].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: context.width * 0.04,
-                              ),
-                            ),
-                            subtitle: Text(
-                                'Price: ${item['product'].price} x ${item['quantity']}'),
-                            // trailing: Text('Total: ${item['totalPrice']}'),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove,
-                                      color: Colors.red),
-                                  onPressed: () {
-                                      cartController.removeProductFromCart(
-                                          item['product']);
-                                    setState(() {
-                                    });
-                                  },
-                                ),
-                                Text(
-                                  item['quantity'].toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: context.width * 0.04,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add,
-                                      color: Colors.green),
-                                  onPressed: () {
-                                    setState(() {
-                                      cartController
-                                          .addProductToCart(item['product']);
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: context.height * 0.12,
+              ),
+              CartItemList(
+                groupedCartItems: groupedCartItems,
+                onIncrease: (cartItem) {
+                  setState(() {
+                    cartController.addProductToCart(cartItem);
+                  });
+                },
+                onDecrease: (cartItem) {
+                  setState(() {
+                    cartController.removeProductFromCart(cartItem);
+                  });
+                },
+                onProductTap: (product) {
+                  Navigator.pushNamed(
+                    context,
+                    RouteNames.productDetail,
+                    arguments: product,
+                  );
+                },
+              ),
+              PaymentInformationCart(
+                  cartController: cartController,
+                  taxesCharges: taxesCharges,
+                  discount: discount),
+              PaymentSummary(
+                  cartController: cartController,
+                  taxesCharges: taxesCharges,
+                  discount: discount)
+            ],
           ),
         ),
       ),
