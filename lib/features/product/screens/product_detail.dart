@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snap_cart/config/extension/context_extension.dart';
+import 'package:snap_cart/config/routes/app_route_name.dart';
 import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:snap_cart/core/models/order/cart_item_model.dart';
@@ -69,7 +70,9 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, RouteNames.orderDetail);
+                },
                 icon: Image.asset(ImageConstants.basket.getPng),
                 color: AppColors.primary,
               ))
