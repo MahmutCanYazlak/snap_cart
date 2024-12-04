@@ -27,12 +27,12 @@ class QuantitySelector extends StatelessWidget {
           ),
           width: context.width * 0.08,
           color: AppColors.whiteColor,
-          onPressed: onDecrease, // Eksi butonuna tıklanma işlevi
+          onPressed: onDecrease,
         ),
-        Padding(
-          padding: context.paddingAllLow,
+        SizedBox(
+          width: context.width * 0.09,
           child: CustomText(
-            label: "$quantity", // Miktarı göster
+            label: "$quantity",
           ),
         ),
         CustomSquareButton(
@@ -42,7 +42,7 @@ class QuantitySelector extends StatelessWidget {
           width: context.width * 0.08,
           isSelected: true,
           color: AppColors.primary,
-          onPressed: onIncrease, // Artı butonuna tıklanma işlevi
+          onPressed: onIncrease,
         ),
       ],
     );
