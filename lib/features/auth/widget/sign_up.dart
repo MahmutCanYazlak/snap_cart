@@ -6,12 +6,12 @@ import 'package:snap_cart/config/extension/context_extension.dart';
 import 'package:snap_cart/core/resources/data_state.dart';
 import 'package:snap_cart/core/service/remote/api_service.dart';
 
+import '../../../config/items/app_colors.dart';
+import '../../../config/routes/app_route_name.dart';
+import '../../../config/utility/enum/image_constants.dart';
+import '../../../config/widget/custom_text_field/custom_text_field.dart';
 import '../../../features/auth/controller/auth_controller.dart';
-import '../../../features/auth/screens/login.dart';
-import '../../items/app_colors.dart';
-import '../../routes/app_route_name.dart';
-import '../../utility/enum/image_constants.dart';
-import '../custom_text_field/custom_text_field.dart';
+import '../../../features/auth/widget/login_methods.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({

@@ -4,7 +4,7 @@ class AppColors {
   AppColors._();
 
   static const Color scaffoldBackground = Color(0xFF202122);
-  static const Color primary = Color(0xFFFFDF6E);
+  static const Color primary = Color(0xFFFECE00);
   static const Color secondary = Color(0xFF010101);
   static const Color grayColor = Color(0xFF9E9E9E);
   static const Color darkGrayColor = Color(0xFF3E3E3E);
