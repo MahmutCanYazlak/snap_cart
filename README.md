@@ -17,20 +17,8 @@ Bu uygulama, özellikle mobil uygulama tasarımı ve mimari yapılar üzerinde �
 > *Uygulamanın giriş ekranında bu bilgileri kullanarak test edebilirsiniz.*
 
 ## Ekran Görüntüleri
-### Kullanıcı Girişi
-![Kullanıcı Girişi](assets/screenshots/login_page.png)
-
-### Ana Sayfa
-![Ana Sayfa](assets/screenshots/home_page.png)
-
-### Ürün Detay 
-![Ana Sayfa](assets/screenshots/product_detail_page.png)
-
-### Ürün Detay 
-![Ana Sayfa](assets/screenshots/product_detail_page_2.png)
-
-### Sepet
-![Sepet](assets/screenshots/order_page.png)
+### Uygulama Sunumu
+![Uygulama Sunumu](assets/screenshots/app_screenshots.png)
 
 
 ## Kurulum
