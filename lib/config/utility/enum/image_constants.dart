@@ -11,13 +11,9 @@ enum ImageConstants {
   options("options"),
   location("location"),
   down("down"),
-  burger("burger"),
-  pizza("pizza"),
-  popcorn("popcorn"),
+
   right("right"),
-  foodPizza("food_pizza"),
-  foodBurger("food_burger"),
-  pizzaLarge("pizza_large"),
+
   timeCircle("time"),
   fire("fire"),
   star("star"),

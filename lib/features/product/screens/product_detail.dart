@@ -5,6 +5,7 @@ import 'package:snap_cart/config/routes/app_route_name.dart';
 import 'package:snap_cart/core/models/getMethods/products/get_alll_products.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:snap_cart/core/models/order/cart_item_model.dart';
+import 'package:snap_cart/features/product/widget/product_price_widget.dart';
 import '../../../config/items/app_colors.dart';
 import '../../../config/utility/enum/image_constants.dart';
 import '../../../config/widget/custom_text/custom_text.dart';
@@ -147,43 +148,9 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: -23,
-                            child: Transform.rotate(
-                              angle: -0.1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                padding: const EdgeInsets.all(3),
-                                child: CustomText(
-                                  label: " $originalPrice \$ ",
-                                  color: Colors.red,
-                                  weight: FontWeight.bold,
-                                  textDecoration: TextDecoration.lineThrough,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            padding: const EdgeInsets.all(3),
-                            child: CustomText(
-                              size: context.width * 0.048,
-                              label: " ${widget.product.price} \$  ",
-                              weight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
+                      ProductPriceWidget(
+                          originalPrice: originalPrice.toString(),
+                          currentPrice: widget.product.price),
                       QuantitySelector(
                         quantity: quantity,
                         onIncrease: () {
