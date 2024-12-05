@@ -1,16 +1,42 @@
-# snap_cart
+# SnapCart
 
-A new Flutter project.
+SnapCart, kullanıcıların ürünleri görüntüleyebileceği, sepete ekleyebileceği ve sepetlerini inceleyebileceği bir Flutter uygulamasıdır.  
+Bu uygulama, özellikle mobil uygulama tasarımı ve mimari yapılar üzerinde çalışmak için geliştirilmiştir. Uygulamada **Riverpod** kullanılarak, durum yönetimi modern ve etkili bir şekilde ele alınmıştır.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Özellikler
+- **Ürün Listeleme:** Kullanıcılar mevcut ürünleri liste halinde görüntüleyebilir.
+- **Sepete Ekleme:** Kullanıcılar ürünleri sepete ekleyebilir.
+- **Sepet Görüntüleme:** Kullanıcılar, sepetteki ürünlerin listesini görüntüleyebilir ve toplam tutarı inceleyebilir.
+- **Kullanıcı Girişi:** Belirtilen kullanıcı adı ve şifre ile giriş yapabilirsiniz.
 
-A few resources to get you started if this is your first Flutter project:
+## Giriş Bilgileri
+- **Kullanıcı Adı:** `emilys`
+- **Şifre:** `emilyspass`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> *Uygulamanın giriş ekranında bu bilgileri kullanarak test edebilirsiniz.*
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Ekran Görüntüleri
+### Kullanıcı Girişi
+![Kullanıcı Girişi](assets/screenshots/login_page.png)
+
+### Ana Sayfa
+![Ana Sayfa](assets/screenshots/home_page.png)
+
+### Ürün Detay 
+![Ana Sayfa](assets/screenshots/product_detail_page.png)
+
+### Ürün Detay 
+![Ana Sayfa](assets/screenshots/product_detail_page_2.png)
+
+### Sepet
+![Sepet](assets/screenshots/order_page.png)
+
+
+## Kurulum
+Projeyi kendi cihazınıza kurmak için aşağıdaki adımları izleyin:
+
+1. **Depoyu Klonlayın:**
+   ```bash
+   git clone https://github.com/kullaniciadi/snap_cart.git
+   cd snap_cart
